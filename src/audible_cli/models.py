@@ -337,11 +337,15 @@ class Library(BaseList):
             if "page" not in params and "num_results" not in params:
                 entire_lib = True
                 params["page"] = 1
-                num_results = 1000
+                num_results = 200
                 params["num_results"] = num_results
 
             library = []
             while True:
+                logger.info(
+                    f"Fetching library page {params.get('page', 1)} with bunch "
+                    f"size {params.get('num_results', 'default')}"
+                )
                 r = await api_client.get("library", params=params)
                 items = r["items"]
                 len_items = len(items)
